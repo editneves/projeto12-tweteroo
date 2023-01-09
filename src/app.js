@@ -5,6 +5,7 @@ const PORT = 5000
 const app = express()
 app.use(express.json())
 app.use(cors())
+
 const appUsers = []
 const usuarios = [];
 const tweet  = [];
@@ -28,7 +29,7 @@ const tweet  = [];
     const user = req.body
     appUsers.push(user)
     signUp.push(newSignUp)
-    res.send("OK");
+    res.status(201).send('OK');
   })
   app.get('/sign-up', (req, res) => {
     res.send(signUp)
@@ -129,10 +130,10 @@ const tweet  = [];
   app.post('/tweets', (req, res) => {
     const newTweets = req.body
     tweets.push(newTweets)
-    //if (tweets.username === appUsers.username) {
-   //   res.send("OK")
-    //}
-    res.send("OK")
+    if (tweets.username != appUsers.username) {
+      return res.status(401).send('UNAUTHORIZED');
+    } 
+    res.status(201).send('OK');
   })
 
   app.get('/tweets', (req, res) => {
